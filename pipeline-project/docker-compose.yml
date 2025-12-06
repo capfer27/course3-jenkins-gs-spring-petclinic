@@ -18,13 +18,23 @@ services:
     image: jenkins/ssh-agent
     networks:
       - jenkins-net
-  mailhog:
+  mailhog1:
     image: nfqlt/mailhog:arm64
     restart: unless-stopped   
     ports:
-    - "1090:80" # mailhog's web app (think test instance of gmail)
-    #- "1025:1025" # jenkins will use `mailhog:1025` to send emails, only map to host if you want to send files:
+    # mailhog's web app (think test instance of gmail)
+    - "1090:80"
+    # jenkins will use `mailhog:1025` to send emails, only map to host if you want to send files:
+    # - "1025:1025"
+    networks:
+      - jenkins-net
 
+  mailhog:
+    image: mailhog/mailhog:latest
+    restart: unless-stopped   
+    ports:
+    - "1025:1025"
+    - "8025:8025"
     networks:
       - jenkins-net
 
