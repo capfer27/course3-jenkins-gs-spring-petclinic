@@ -1,0 +1,17 @@
+// {
+//     "jenkins-runner.jobs": {
+//         "ide": {
+//             "runWith": "pipelines-1080",
+//             "name": "ide",
+//             "isDefault": true
+//         }
+//     },
+//     "jenkins-runner.hostConfigs": {
+//         "pipelines-1080": {
+//             "url": "http://localhost:1080",
+//             "user": "admin",
+//             "password": "12345",
+//             "useCrumbIssuer": true
+//         }
+//     }
+// }

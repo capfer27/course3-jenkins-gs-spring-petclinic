@@ -1,0 +1,46 @@
+services:
+  jenkins:
+    image: jenkins/jenkins:lts
+    restart: unless-stopped
+    ports:
+      # Map the container's 8080 port to the host's 8080 port
+      - "9080:8080"
+      # # Agent port for build nodes (optional)
+      # - "50000:50000"
+    environment:
+      # CRITICAL CONFIGS FOR CSRF FIX:
+      # 1. Set the exact URL you use to access Jenkins in your browser
+      JENKINS_URL: http://localhost:9080/  
+    networks:
+      - jenkins-net
+    volumes:
+      - jenkins_home:/var/jenkins_home
+  ssh-agent:
+    image: jenkins/ssh-agent
+    networks:
+      - jenkins-net
+  
+  # I like docker-compose because I can easily spin up multiple apps like a test email server alongside jenkins! for testing email notifications from jenkins (later)
+  # mails:
+  #   image: mailhog/mailhog
+  #   restart: unless-stopped   
+  #   ports:
+  #   - "127.0.0.1:8025:8025" # mailhog's web app (think test instance of gmail)
+    # "127.0.0.1:1025:1025" # jenkins will use `mail:1025` to send emails, only map to host if you want to send files
+  mailhog:
+    # image: jcalonso/mailhog:
+    image: nfqlt/mailhog:arm64
+    restart: unless-stopped   
+    ports:
+    - "9090:80" # mailhog's web app (think test instance of gmail)
+    networks:
+      - jenkins-net
+
+volumes:
+  jenkins_home:
+
+networks:
+  jenkins-net:
+    # Specify driver options
+    driver: bridge
+  
