@@ -15,6 +15,8 @@ pipeline {
         stage ('Build') {
             steps {
                 sh './mvnw clean package'
+                // sh 'false' // true
+
             }
 
             post {
@@ -23,10 +25,13 @@ pipeline {
                     archiveArtifacts 'target/*.jar'
                 // }
                 // changed {
-                    emailext attachLog: true, body: 'Please go to ${BUILD_URL} and verify the build.', 
-                    compressLog: true, recipientProviders: [upstreamDevelopers(), requestor()],
-                    to: 'test@jenkins.com' ,
-                    subject: 'Job \'${JOB_NAME}\' ({BUILDER_NUMBER}) is waiting for input'
+                    // emailext  subject: 'Job \'${JOB_NAME}\' (${BUILD_NUMBER}) is waiting for input',
+                    emailext  subject: "Job \'${JOB_NAME}\' (build ${BUILD_NUMBER}) ${currentBuild.result}",
+                    body: "Please go to ${BUILD_URL} and verify the build.",
+                    attachLog: true,
+                    compressLog: true, 
+                    to: "test15@jenkins.com",
+                    recipientProviders: [upstreamDevelopers(), requestor()]
                 }
             }
         }
