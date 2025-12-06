@@ -1,0 +1,48 @@
+The docker image url: https://github.com/jenkinsci/docker/blob/master/README.md
+
+# https://github.com/g0t4/course-jenkins-getting-started/tree/master
+#commands
+# docker compose up -d
+# docker compose down
+# docker exec -it <container_name_or_id> bash
+# url http://localhost:9080
+
+# 1. Configure Jobs to Capture Rich Unit Test Results
+#  - Jenkins Section -> Post Build Actions
+
+# 2. Шаги сборки
+  # - Выполнить команду shell - ./mvnw package
+
+# 3. Заархивировать артефакты 
+    #  - target/*.jar
+
+# 4. Publish JUnit test result report - target/surefire-reports/*.xml
+
+# 5. Visualizing Common Build Triggers - Push, Pull, and Scheduled.
+    #  - Polling Trigger that checks if there are any new chnages in the repository using schedule.
+    # -  Push Trigger for when somebody pushes chages to a git repository, which is tipically done using a webhook.
+
+    # Polling Trigger
+    # POOL SCM - the easizest one to start with 
+    # * * * * * -> runs every minute
+
+# 6. Two statges pipelines
+
+
+# Sending Email: 
+  # - Section -> manage-> configure -> Extended E-mail Notifications
+  # - Section -> pipeline-syntax -> Declarative Directive Generator -> post: Post Stage Or Build Conditions:
+#   post {
+#   regression {
+#     // One or more steps need to be included within each condition's block.
+#   }
+#   fixed {
+#     // One or more steps need to be included within each condition's block.
+#   }
+#   changed {
+#     // One or more steps need to be included within each condition's block.
+#   }
+# }
+
+  # Section -> pipeline-syntax -> Global Variables Reference (also helpful to set up email)
+  # Section -> pipeline-syntax -> Snippet Generator -> emailtext: Extended Email
